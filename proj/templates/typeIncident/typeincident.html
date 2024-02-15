@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% load static %}
+
+
+{% block title %}Tableau de bord{% endblock title %}
+
+{% block pagehead %}
+<h1 class="h3 mb-2 text-gray-800">Types Incidents</h1>
+<div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                            </div>
+                            <div class="modal_body"></div>
+                        </div>
+                    </div>
+                </div>
+{% endblock pagehead %}
+
+{% block pageheadrow %}
+<div class="container-fluid">
+                    <!-- Page Heading -->
+                    {% include "partials/_alert.html" %}
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Listes des types d'incidents
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile" id="add_type_incident">
+                                Ajouter
+                              </button>
+                              </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Voir</th>
+                                            <th>Modifier</th>
+                                            <th>Supprimer</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Voir</th>
+                                            <th>Modifier</th>
+                                            <th>Supprimer</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    {% for type_incident in typeIncident %}
+                                        <tr>
+                                            <td>{{type_incident.code}}</td>
+                                            <td><button type="button" name="edit_btn" data-id="" data-toggle="modal" data-target="#" class="btn btn-secondary">Voir</button></td>
+                                            <td><button type="submit" data-id="{{type_incident.id}}" class="btn btn-primary edit_type_incident" data-toggle="modal" data-target="#addadminprofile" >Modifier</button></td>
+                                            <td><button type="submit" data-id="{{type_incident.id}}" class="btn btn-danger delete_type_incident" data-toggle="modal" data-target="#confirmDeleteModal" >Supprimer</button></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% include 'partials/_confirm_delete_modal.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    {% endblock pageheadrow %}
+
+{% block arearow %} {% endblock arearow %}
+{% block columrow %} {% endblock columrow %}
+</div>
+{% block js %}
+    <script>
+    $(function() {
+        $('#add_type_incident').click(function() {
+            modalShow('Ajouter un nouveau type incident', "{% url 'manage_type_incident' %}", 'url');
+        });
+        $('.edit_type_incident').click(function() {
+            modalShow('Modifier cet type incident', "{% url 'manage_type_incident' %}?id="+$(this).attr('data-id'), 'url' );
+        });
+        $('.delete_type_incident').click(function() {
+            var typeIncidentId = $(this).data('id');
+
+            $('#confirmDeleteModal').data('type-incident-id', typeIncidentId);
+            $('#confirmDeleteModal').modal('show');
+
+            $('#confirmDeleteBtn').click(function() {
+                var typeIncidentId = $('#confirmDeleteModal').data('type-incident-id');
+
+                $.ajax({
+                headers: {
+                    'X-CSRFToken': "{{csrf_token}}"
+                },
+                url: "{% url 'delete_type_incident' 0 %}".replace(0, typeIncidentId),
+                type: 'DELETE',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        console.log('type incident supprime avec succes');
+                    } else {
+                        console.log('Echec de la suppression du type incident');
+                    }
+                }
+            });
+             $('#confirmDeleteModal').modal('hide');
+            });
+
+        });
+           
+        });
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+<form method="POST" enctype="multipart/form-data" id='save-form'>
+    <input type="hidden" name="id" value="{{type_system.id}}">
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="nom" value="{{type_system.nom}}" class="form-control" placeholder="Entrez le nom">
+        </div>
+        
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" name="registerbtn" class="btn btn-primary">Enregistrer</button>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        $('#save-form').submit(function(e) {
+            e.preventDefault();
+            var _this = $(this);
+            if (_this[0].checkValidity() == false) {
+                _this[0].reportValidity();
+                return false;
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRFToken': "{{csrf_token}}"
+                },
+                url: '{% url "save_type_system" %}',
+                data : new FormData($(this)[0]),
+                cache : false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type:'POST',
+                dataType: 'json',
+                error: err=>{
+                    console.log(err);
+                    alert_toast('Erreur');
+                },
+                success: function(resp){
+                    if (typeof resp == 'object' && resp.status == 'success'){
+                        location.reload()
+                    } else if(resp.status == 'failed' && !!resp.msg){
+                        alert_toast(resp.msg);
+                    } else{
+                        alert_toast('Erreur');
+                    }
+                }
+                });
+        });
+    });
+    
+</script>

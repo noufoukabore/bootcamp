@@ -1,0 +1,127 @@
+<form method="POST" enctype="multipart/form-data" id='save-form'>
+    <input type="hidden" name="id" value="{{eei.id}}">
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="nom" value=" {{eei.nom}} " class="form-control" placeholder="Entrez le nom">
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" value=" {{eei.date}} " class="form-control" placeholder="Choisir un date">
+        </div>
+        <div class="form-group">
+            <label>Details</label>
+            <input type="text" name="details" value=" {{eei.details}} " class="form-control" placeholder="Entrez les details">
+        </div>
+        <div class="form-group">
+            <label>Photos</label>
+            <input type="file" name="photo" value=" {{eei.photo}} " class="form-control" placeholder="Choisir une photo">
+        </div>
+        
+        <div class="form-group">
+            <label>Routes</label>
+            <select name="route" class="form-control" id="id_route">
+            {% for routes in route %}
+                <option value=" {{routes.id}} ">{{routes.nom}}</option>
+            {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Type pose</label>
+            <select name="type_pose" class="form-control" id="id_type_pose">
+                {% for type_poses in type_pose %}
+                <option value=" {{type_poses.id}} ">{{type_poses.nom}}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Longitude</label>
+            <select name="longitude" class="form-control" id="id_longitude">
+                {% for longitudes in longitude %}
+                <option value=" {{longitudes.id}} ">{{longitudes.degre}}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Latitude</label>
+            <select name="latitude" class="form-control" id="id_latitude">
+                {% for latitudes in latitude %}
+                <option value=" {{latitudes.id}} ">{{latitudes.degre}}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Type incident</label>
+            <select name="type_incident" class="form-control" id="id_type_incident">
+                {% for type_incidents in type_incident %}
+                <option value=" {{type_incidents.id}} ">{{type_incidents.code}}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Systeme detection</label>
+            <select name="system_dec" class="form-control" id="id_system_dec">
+                {% for system_detects in system_detect %}
+                <option value=" {{system_detects.id}} ">{{system_detects.nom}}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Caracteristiques points</label>
+            <select name="caracteristique" class="form-control" id="id_caracteristique">
+                {% for caracteristiques in caracteristique %}
+                <option value=" {{caracteristiques.id}} ">{{caracteristiques.nom}}</option>
+            {% endfor %}
+            </select>
+        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" name="registerbtn" class="btn btn-primary">Enregistrer</button>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        $('#save-form').submit(function(e) {
+            e.preventDefault();
+            var _this = $(this);
+            if (_this[0].checkValidity() == false) {
+                _this[0].reportValidity();
+                return false;
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRFToken': "{{csrf_token}}"
+                },
+                url: '{% url "save_eei" %}',
+                data : new FormData($(this)[0]),
+                cache : false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type:'POST',
+                dataType: 'json',
+                error: err=>{
+                    console.log(err);
+                    alert_toast('Erreur');
+                },
+                success: function(resp){
+                    if (typeof resp == 'object' && resp.status == 'success'){
+                        location.reload()
+                    } else if(resp.status == 'failed' && !!resp.msg){
+                        alert_toast(resp.msg);
+                    } else{
+                        alert_toast('Erreur');
+                    }
+                }
+                });
+        });
+    });
+    
+</script>

@@ -1,0 +1,112 @@
+<!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Sys EEI<sup>2</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>{% block navDash %}Tableau de bord{% endblock navDash %}</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Engins Explosif Improvises
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'eei'  %}">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>EEI</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            {% comment %} <!-- Heading -->
+            <div class="sidebar-heading">
+                Parametres
+            </div>
+
+            <!-- Nav Item - Routes  Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'route' %}">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Routes</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'type_pose' %}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>TypePose</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'longitude' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Longitude</span></a>
+            </li>
+
+             <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'latitude' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Latitude</span></a>
+            </li>
+
+             <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'type_incident' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>TypeIncident</span></a>
+            </li>
+
+             <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'system_detect' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Systeme Detection</span></a>
+            </li>
+
+             <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'type_system' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Type Systeme</span></a>
+            </li>
+
+             <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'caracteristique' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Caracteristiques Points</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block"> {% endcomment %}
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
